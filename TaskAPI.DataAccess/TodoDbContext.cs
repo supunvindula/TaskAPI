@@ -11,6 +11,7 @@ namespace TaskAPI.DataAccess
     public class TodoDbContext : DbContext
     {
         public DbSet<Todo> Todos { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,6 +21,13 @@ namespace TaskAPI.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Author>().HasData(new Author[] 
+            {
+                new Author {Id = 1, FullName= "Supun Vindula"},
+                new Author {Id = 2, FullName= "Kushini Kalupahana"},
+                new Author {Id = 3, FullName= "Maneesha Randeniya"},
+                new Author {Id = 4, FullName= "Basuru Wickramarachchi"}
+            });
             modelBuilder.Entity<Todo>().HasData(new Todo
             {
                 Id = 7,
@@ -27,7 +35,8 @@ namespace TaskAPI.DataAccess
                 Description = "Get some text books for school",
                 Created = DateTime.Now,
                 Due = DateTime.Now.AddDays(5),
-                Status = TodoStatus.New
+                Status = TodoStatus.New,
+                AuthorId = 1
             });
             modelBuilder.Entity<Todo>().HasData(new Todo
             {
@@ -36,7 +45,8 @@ namespace TaskAPI.DataAccess
                 Description = "Buy from Daraz",
                 Created = DateTime.Now,
                 Due = DateTime.Now.AddDays(3),
-                Status = TodoStatus.New
+                Status = TodoStatus.Completed,
+                AuthorId = 2
             });
             modelBuilder.Entity<Todo>().HasData(new Todo
             {
@@ -45,7 +55,8 @@ namespace TaskAPI.DataAccess
                 Description = "To protect from mosquitos",
                 Created = DateTime.Now,
                 Due = DateTime.Now.AddDays(4),
-                Status = TodoStatus.New
+                Status = TodoStatus.New,
+                AuthorId = 1
             });
         }
     }
