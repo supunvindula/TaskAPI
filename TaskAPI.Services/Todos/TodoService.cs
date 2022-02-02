@@ -43,5 +43,10 @@ namespace TaskAPI.Services.Todos
             todos.Add(todo3);
             return todos;
         }
+
+        public Todo GetTodo(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
