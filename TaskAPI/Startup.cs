@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TaskAPI.Services.Todos;
 using TaskAPI.Services.Authors;
+using Microsoft.AspNetCore.Http;
 
 namespace TaskAPI
 {
@@ -52,6 +53,17 @@ namespace TaskAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskAPI v1"));
+            }
+            else
+            {
+                app.UseExceptionHandler(app =>
+                {
+                    app.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An Unexpected!! SERVER ERROR CONTACT SUPUN");
+                    });
+                });
             }
 
             app.UseHttpsRedirection();

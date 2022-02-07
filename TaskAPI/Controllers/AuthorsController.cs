@@ -25,6 +25,7 @@ namespace TaskAPI.Controllers
         [HttpGet]
         public ActionResult<ICollection<AuthorDto>> GetAuthors()
         {
+            throw new Exception("test error");
             var authors = _service.GetAllAuthors();
 
             var mappedAuthors = _mapper.Map<ICollection<AuthorDto>>(authors);
@@ -37,7 +38,8 @@ namespace TaskAPI.Controllers
             var author = _service.GetAuthor(id);
             if (author is null)
                 return NotFound();
-            return Ok(author);
+            var mappedAuthor = _mapper.Map<AuthorDto>(author);
+            return Ok(mappedAuthor);
         }
     }
 }
