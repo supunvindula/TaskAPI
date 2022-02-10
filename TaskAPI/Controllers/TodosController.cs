@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskAPI.Models;
 using TaskAPI.Services.Models;
 using TaskAPI.Services.Todos;
 
@@ -29,7 +30,7 @@ namespace TaskAPI.Controllers
             return Ok(mappedTodos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetTodo")]
         public ActionResult<TodoDto> GetTodo(int authorId,int id)
         {
             var todo = _todoService.GetTodo(authorId,id);
@@ -38,6 +39,14 @@ namespace TaskAPI.Controllers
             var mappedTodos = _mapper.Map<TodoDto>(todo);
             return Ok(mappedTodos);
 
+        }
+        [HttpPost]
+        public ActionResult CreateTodo(int authorId,CreateTodoDto todo)
+        {
+            var todoEntity = _mapper.Map<Todo>(todo);
+            var newTodo = _todoService.AddTodo(authorId, todoEntity);
+            var todoForReturn = _mapper.Map<TodoDto>(newTodo);
+            return CreatedAtRoute("GetTodo",new { authorId=authorId,id=todoForReturn.Id},todoForReturn);
         }
 
         

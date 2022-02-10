@@ -13,12 +13,21 @@ namespace TaskAPI.Services.Todos
         private readonly TodoDbContext _context = new TodoDbContext();
         public List<Todo> AllTodos(int authorID)
         {
-            return _context.Todos.Where(t => t.AuthorId==authorID).ToList();
+            return _context.Todos.Where(t => t.AuthorId == authorID).ToList();
         }
 
-        public Todo GetTodo(int authorId,int id)
+        public Todo GetTodo(int authorId, int id)
         {
             return _context.Todos.FirstOrDefault(t => t.Id == id && t.AuthorId == authorId);
+        }
+
+        public Todo AddTodo(int authorId, Todo todo)
+        {
+            todo.AuthorId = authorId;
+            _context.Todos.Add(todo);
+            _context.SaveChanges();
+
+            return _context.Todos.Find(todo.Id);
         }
     }
 }
