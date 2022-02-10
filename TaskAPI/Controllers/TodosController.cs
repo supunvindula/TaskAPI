@@ -48,6 +48,25 @@ namespace TaskAPI.Controllers
             var todoForReturn = _mapper.Map<TodoDto>(newTodo);
             return CreatedAtRoute("GetTodo",new { authorId=authorId,id=todoForReturn.Id},todoForReturn);
         }
+        [HttpPut("{todoId}")]
+        public ActionResult UpdateTodo(int authorId,int todoId,UpdateTodoDto todo)
+        {
+            var updatingTodo = _todoService.GetTodo(authorId, todoId);
+            if (updatingTodo is null)
+                return NotFound();
+            _mapper.Map(todo, updatingTodo);
+            _todoService.updateTodo(updatingTodo);
+            return NoContent();
+        }
+        [HttpDelete("{todoId}")]
+        public ActionResult DeleteTodo(int authorId, int todoId)
+        {
+            var deletingTodo = _todoService.GetTodo(authorId, todoId);
+            if (deletingTodo is null)
+                return NotFound();
+            _todoService.deleteTodo(deletingTodo);
+            return NoContent();
+        }
 
         
     }
